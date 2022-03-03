@@ -152,3 +152,27 @@ exports.findAllPublished = (req, res) => {
       });
     });
 };
+// User login
+exports.login = async (req, res) => {
+  try {
+  const {
+    email_address,
+    password,
+  } = req.body;
+
+  if (!(email_address && password)) {
+    res.status(400).send("All input is required");
+  }
+
+  const user = await User.findOne({ email_address });
+
+  if(user &&  password === user.password) {
+    
+    res.status(200).json(user);
+
+  }
+  res.status(400).send("Email or password was incorrect.");
+} catch(err) {
+  console.log(err);
+}
+};
