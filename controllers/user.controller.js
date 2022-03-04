@@ -108,6 +108,7 @@ exports.update = (req, res) => {
       });
     });
 };
+
 // Delete a User with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
@@ -194,3 +195,4 @@ exports.login = async (req, res) => {
   console.log(err);
 }
 };
+
