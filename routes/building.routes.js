@@ -1,4 +1,4 @@
-const buildings = require('../controllers/building.controller');
+const buildings = require('../controllers/building.controller.js');
 const router = require('express').Router();
 
 module.exports = (app) => {
