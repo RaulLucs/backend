@@ -40,6 +40,9 @@ const User = sequelize.define('user', {
     type: Sequelize.BOOLEAN,
     defaultValue: true,
   },
+  token: {
+     type: Sequelize.STRING, 
+  },
 });
 
 module.exports = { User };
