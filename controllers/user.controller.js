@@ -1,9 +1,10 @@
 const { User } = require('../models/user.model');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const bcrypt = require('bcryptjs');
 
 // Create and Save a new User
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   const {
     first_name,
     last_name,
@@ -14,12 +15,14 @@ exports.create = (req, res) => {
     nationality,
     role,
   } = req.body;
+  //Password encryption
+  encyrptedPassword = await bcrypt.hash(password, 10);
   // Create a User
   const user = {
     first_name,
     last_name,
-    email_address,
-    password,
+    email_address: email_address.toLowerCase(),
+    password: encyrptedPassword,
     gender,
     date_of_birth,
     nationality,
@@ -166,7 +169,7 @@ exports.login = async (req, res) => {
 
   const user = await User.findOne({ email_address });
 
-  if(user &&  password === user.password) {
+  if(user &&  (await bcrypt.compare(password, user.password))) {
     
     res.status(200).json(user);
 
