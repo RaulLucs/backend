@@ -94,3 +94,42 @@ exports.update = (req, res) => {
       });
     });
 };
+
+exports.delete = (req, res) => {
+  const id = req.params.id;
+  Office.destroy({
+    where: { id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: 'Office was deleted successfully!',
+        });
+      } else {
+        res.send({
+          message: `Cannot delete Office with id=${id}. Maybe Office was not found!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Could not delete Office with id=' + id,
+      });
+    });
+};
+
+exports.deleteAll = (req, res) => {
+  Office.destroy({
+    where: {},
+    truncate: false,
+  })
+    .then((nums) => {
+      res.send({ message: `${nums} Office were deleted successfully!` });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while removing all offices.',
+      });
+    });
+};
