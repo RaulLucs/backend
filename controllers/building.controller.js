@@ -83,3 +83,26 @@ exports.update = (req, res) => {
       });
     });
 };
+
+exports.delete = (req, res) => {
+  const id = req.params.id;
+  Building.destroy({
+    where: { id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: 'Building was deleted successfully!',
+        });
+      } else {
+        res.send({
+          message: `Cannot delete Building with id=${id}. Maybe Building was not found!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Could not delete Building with id=' + id,
+      });
+    });
+};

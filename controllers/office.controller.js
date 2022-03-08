@@ -94,3 +94,26 @@ exports.update = (req, res) => {
       });
     });
 };
+
+exports.delete = (req, res) => {
+  const id = req.params.id;
+  Office.destroy({
+    where: { id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: 'Office was deleted successfully!',
+        });
+      } else {
+        res.send({
+          message: `Cannot delete Office with id=${id}. Maybe Office was not found!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Could not delete Office with id=' + id,
+      });
+    });
+};

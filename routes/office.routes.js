@@ -6,5 +6,6 @@ module.exports = (app) => {
   router.get('/', offices.findAll);
   router.get('/:id', offices.findOne);
   router.put('/:id', offices.update);
+  router.delete('/:id', offices.delete);
   app.use('/api/offices', router);
 };
