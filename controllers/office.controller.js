@@ -117,19 +117,3 @@ exports.delete = (req, res) => {
       });
     });
 };
-
-exports.deleteAll = (req, res) => {
-  Office.destroy({
-    where: {},
-    truncate: false,
-  })
-    .then((nums) => {
-      res.send({ message: `${nums} Office were deleted successfully!` });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || 'Some error occurred while removing all offices.',
-      });
-    });
-};

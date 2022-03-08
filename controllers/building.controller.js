@@ -102,23 +102,7 @@ exports.delete = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'Could not delete Office with id=' + id,
-      });
-    });
-};
-
-exports.deleteAll = (req, res) => {
-  Building.destroy({
-    where: {},
-    truncate: false,
-  })
-    .then((nums) => {
-      res.send({ message: `${nums} Building was deleted successfully!` });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || 'Some error occurred while removing all Building.',
+        message: 'Could not delete Building with id=' + id,
       });
     });
 };
