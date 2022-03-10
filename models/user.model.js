@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const { sequelize } = require('../config/sequelize.config');
-
+const { Office } = require('./office.model');
 const User = sequelize.define('user', {
   first_name: {
     type: Sequelize.STRING,
@@ -41,11 +41,24 @@ const User = sequelize.define('user', {
     defaultValue: true,
   },
   token: {
-     type: Sequelize.STRING, 
+    type: Sequelize.STRING,
   },
-});
+  office_id: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: 'office',
+      key: 'id',
+    },
+  },
+},
+{ tableName: 'user' }
+);
+Office.associate = (models) => {
+  Office.hasOne(models.office, {
+    foreignKey: 'id',
+    sourceKey: 'office_id',
+  });
+};
+
 
 module.exports = { User };
-
-
-

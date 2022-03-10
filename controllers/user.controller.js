@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const bcrypt = require('bcryptjs');
 
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 // Create and Save a new User
 exports.create = async (req, res) => {
@@ -16,6 +16,7 @@ exports.create = async (req, res) => {
     date_of_birth,
     nationality,
     role,
+    office_id,
     token,
   } = req.body;
   //Password encryption
@@ -29,6 +30,7 @@ exports.create = async (req, res) => {
     gender,
     date_of_birth,
     nationality,
+    office_id,
     role,
   };
 
@@ -53,7 +55,7 @@ exports.create = async (req, res) => {
 };
 
 // Retrieve all Users from the database.
-exports.findAll =  (req, res) => {
+exports.findAll = (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.iLike]: `%${title}%` } } : null;
   User.findAll({ where: condition })
@@ -162,37 +164,31 @@ exports.findAllPublished = (req, res) => {
 // User login
 exports.login = async (req, res) => {
   try {
-  const {
-    email_address,
-    password,
-  } = req.body;
+    const { email_address, password } = req.body;
 
-  if (!(email_address && password)) {
-    res.status(400).send("All input is required");
+    if (!(email_address && password)) {
+      res.status(400).send('All input is required');
+    }
+
+    const user = await User.findOne({ email_address });
+    console.log('HI');
+    if (user && (await bcrypt.compare(password, user.password))) {
+      // Create token
+      const token = jwt.sign(
+        { user_id: user._id, email_address },
+        process.env.TOKEN_KEY,
+        {
+          expiresIn: '2h',
+        }
+      );
+
+      // save user token
+      user.token = token;
+
+      res.status(200).json(user);
+    }
+    res.status(400).send('Email or password was incorrect.');
+  } catch (err) {
+    console.log(err);
   }
-
-  const user = await User.findOne({ email_address });
-  console.log("HI");
-  if(user &&  (await bcrypt.compare(password, user.password))) {
-    // Create token
-    const token = jwt.sign(
-      { user_id: user._id, email_address },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
-
-    // save user token
-    user.token = token;
-
-
-    res.status(200).json(user);
-
-  }
-  res.status(400).send("Email or password was incorrect.");
-} catch(err) {
-  console.log(err);
-}
 };
-
