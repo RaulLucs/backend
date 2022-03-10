@@ -1,11 +1,12 @@
 const { Office } = require('../models/office.model');
 const Sequelize = require('sequelize');
+const { Building } = require('../models/building.model');
 const Op = Sequelize.Op;
 
 exports.create = (req, res) => {
   const {
     office_name,
-    building,
+    building_id,
     floor_number,
     total_desks_count,
     usable_desks_count,
@@ -14,7 +15,7 @@ exports.create = (req, res) => {
 
   const office = {
     office_name,
-    building,
+    building_id,
     floor_number,
     total_desks_count,
     usable_desks_count,
@@ -42,7 +43,14 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.iLike]: `%${title}%` } } : null;
-  Office.findAll({ where: condition })
+  Office.findAll({
+    where: condition,
+    include: [
+      {
+        model: Building,
+      },
+    ],
+  })
     .then((data) => {
       res.send(data);
     })
