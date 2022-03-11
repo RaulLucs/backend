@@ -7,7 +7,7 @@ const sequelize = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, {
   operatorsAliases: false,
   logging: false,
   ssl: true,
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
   dialectOptions: {
     ssl: {
       require: true,
