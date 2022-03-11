@@ -12,7 +12,7 @@ const sequelize = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, {
       require: true,
       rejectUnauthorized:false,
     }
-  }
+  },
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
