@@ -6,8 +6,7 @@ const sequelize = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, {
   dialect: dbConfig.dialect,
   operatorsAliases: false,
   pool: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: {rejectUnauthorized: false},
+    connectionString: dbConfig.connectionString,
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
