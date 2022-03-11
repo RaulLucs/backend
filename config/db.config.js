@@ -5,6 +5,7 @@ module.exports = {
   db: process.env.DB || 'postgres',
   dialect: process.env.DB_DIALECT || 'postgres',
   connectionString: process.env.DATABASE_URL,
+  ssl: {rejectUnauthorized: false},
   pool: {
     max: 5,
     min: 0,
