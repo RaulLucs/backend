@@ -1,16 +1,16 @@
-const { sequelize } = require('./config/sequelize.config');
-const userRoutes = require('./routes/user.routes');
-const buildingRoutes = require('./routes/building.routes');
-const officeRoutes = require('./routes/office.routes');
-const express = require('express');
-const cors = require('cors');
+const { sequelize } = require("./config/sequelize.config");
+const userRoutes = require("./routes/user.routes");
+const buildingRoutes = require("./routes/building.routes");
+const officeRoutes = require("./routes/office.routes");
+const express = require("express");
+const cors = require("cors");
 const app = express();
-require('dotenv').config();
+require("dotenv").config();
 const corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: "http://localhost:8081",
 };
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   //when we get an http get request to the root/homepage
   res.send("Hello World");
 });
