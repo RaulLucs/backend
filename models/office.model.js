@@ -35,6 +35,7 @@ const Office = sequelize.define(
   },
   { tableName: 'office' }
 );
+
 Office.associate = (models) => {
   Office.hasOne(models.building, {
     foreignKey: 'id',
