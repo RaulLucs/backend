@@ -5,6 +5,7 @@ module.exports = {
   password: process.env.DB_PASSWORD || "postgres",
   db: process.env.DB || "postgres",
   dialect: process.env.DB_DIALECT || "postgres",
+  isProduction: process.env.NODE_ENV === "production",
   pool: {
     max: 5,
     min: 0,
