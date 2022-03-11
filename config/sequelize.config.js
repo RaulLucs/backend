@@ -1,14 +1,13 @@
-const dbConfig = require('./db.config');
-const Sequelize = require('sequelize');
+const dbConfig = require("./db.config");
+const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, {
   host: dbConfig.host,
   dialect: dbConfig.dialect,
   operatorsAliases: false,
-  dialectOptions: {
-  
-      rejectUnauthorized: false // <<<<<<< YOU NEED THIS
-    },
+  ssl: {
+    rejectUnauthorized: false, // <<<<<<< YOU NEED THIS
+  },
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
