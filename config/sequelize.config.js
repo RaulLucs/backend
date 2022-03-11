@@ -5,7 +5,6 @@ const sequelize = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, {
   host: dbConfig.host,
   dialect: dbConfig.dialect,
   operatorsAliases: false,
-  connectionString: dbConfig.connectionString,
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
