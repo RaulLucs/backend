@@ -10,6 +10,11 @@ const corsOptions = {
   origin: 'http://localhost:8081',
 };
 
+app.get("/", function(req, res) {
+  //when we get an http get request to the root/homepage
+  res.send("Hello World");
+});
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
