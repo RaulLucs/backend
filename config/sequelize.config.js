@@ -4,7 +4,6 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, {
   host: dbConfig.host,
   dialect: dbConfig.dialect,
-  operatorsAliases: false,
   logging: true,
   ssl: true,
   connectionString: process.env.DATABASE_URL,
