@@ -1,6 +1,6 @@
 const { sequelize } = require('./config/sequelize.config');
 const userRoutes = require('./routes/user.routes');
-const bulidingRoutes = require('./routes/building.routes');
+const buildingRoutes = require('./routes/building.routes');
 const officeRoutes = require('./routes/office.routes');
 const express = require('express');
 const cors = require('cors');
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 sequelize.sync({ force: true });
 //sequelize.sync();
 userRoutes(app);
-bulidingRoutes(app);
+buildingRoutes(app);
 officeRoutes(app);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
