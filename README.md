@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# backend
-Exabyte backend
-=======
-# Office_Management_Offices
-An offices management apps
->>>>>>> Office_Management_Offices/master
+# Office_Management_Backend
+Backend of Exabyte team for Assist Tech Challenge.
+By Raul&Robert.
