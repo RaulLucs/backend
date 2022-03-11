@@ -19,12 +19,12 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//sequelize.sync({ force: true });
-sequelize.sync();
+sequelize.sync({ force: true });
+//sequelize.sync();
 userRoutes(app);
 bulidingRoutes(app);
 officeRoutes(app);
-const PORT = process.env.PORT || 5432;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
