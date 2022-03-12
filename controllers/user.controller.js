@@ -126,13 +126,13 @@ exports.login = async (req, res) => {
         expiresIn: "2h",
       });
 
-      res.status(200).json({ acces_token: token });
-    }
-    res.json({
-      statusCode: 400,
-      message: "Email or password was incorrect.",
-      error: "Bad request",
-    });
+      res.status(200).json({ access_token: token });
+    } else
+      res.json({
+        statusCode: 400,
+        message: "Email or password was incorrect.",
+        error: "Bad request",
+      });
   } catch (err) {
     console.log(err);
   }
