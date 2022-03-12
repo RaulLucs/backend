@@ -39,7 +39,7 @@ exports.create = async (req, res) => {
       res.status(200).send(data);
     })
     .catch((err) => {
-      res.status(200).send(data);
+      res.json(data);
       if (err.message === "Validation error") {
         res.status(400).send({
           message: "User already exists",
@@ -131,7 +131,7 @@ exports.login = async (req, res) => {
 
       res.status(200).json({ access_token: token });
     } else
-      returnres.json({
+      return res.json({
         statusCode: 400,
         message: "Email or password was incorrect.",
         error: "Bad request",
