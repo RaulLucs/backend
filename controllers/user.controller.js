@@ -24,7 +24,7 @@ exports.create = async (req, res) => {
   const user = {
     first_name,
     last_name,
-    email_address: email_address.toLowerCase(),
+    email_address,
     password: encyrptedPassword,
     gender,
     date_of_birth,
@@ -118,7 +118,9 @@ exports.login = async (req, res) => {
       res.status(400).send("All input is required");
     }
 
-    const user = await User.findOne({ email_address });
+    const user = await User.findOne({
+      where: { email_address: email_address },
+    });
     console.log("HI");
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
@@ -126,13 +128,13 @@ exports.login = async (req, res) => {
         expiresIn: "2h",
       });
 
-      res.status(200).json({ acces_token: token });
-    }
-    res.json({
-      statusCode: 400,
-      message: "Email or password was incorrect.",
-      error: "Bad request",
-    });
+      res.status(200).json({ access_token: token });
+    } else
+      return res.json({
+        statusCode: 400,
+        message: "Email or password was incorrect.",
+        error: "Bad request",
+      });
   } catch (err) {
     console.log(err);
   }
