@@ -118,7 +118,9 @@ exports.login = async (req, res) => {
       res.status(400).send("All input is required");
     }
 
-    const user = await User.findOne({ email_address: email_address });
+    const user = await User.findOne({
+      where: { email_address: email_address },
+    });
     console.log("HI");
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
