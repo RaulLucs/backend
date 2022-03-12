@@ -17,7 +17,6 @@ exports.create = async (req, res) => {
     nationality,
     role,
     office_id,
-    token,
   } = req.body;
   //Password encryption
   encyrptedPassword = await bcrypt.hash(password, 10);
@@ -110,57 +109,6 @@ exports.update = (req, res) => {
       });
     });
 };
-
-// Delete a User with the specified id in the request
-exports.delete = (req, res) => {
-  const id = req.params.id;
-  User.destroy({
-    where: { id: id },
-  })
-    .then((num) => {
-      if (num == 1) {
-        res.send({
-          message: "User was deleted successfully!",
-        });
-      } else {
-        res.send({
-          message: `Cannot delete User with id=${id}. Maybe User was not found!`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Could not delete User with id=" + id,
-      });
-    });
-};
-// Delete all Users from the database.
-exports.deleteAll = (req, res) => {
-  User.destroy({
-    where: {},
-    truncate: false,
-  })
-    .then((nums) => {
-      res.send({ message: `${nums} Users were deleted successfully!` });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while removing all users.",
-      });
-    });
-};
-// Find all published Users
-exports.findAllPublished = (req, res) => {
-  User.findAll({ where: { published: true } })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving users.",
-      });
-    });
-};
 // User login
 exports.login = async (req, res) => {
   try {
@@ -180,7 +128,7 @@ exports.login = async (req, res) => {
 
       res.status(200).json({ acces_token: token });
     }
-    res.status(400).json({
+    res.json({
       statusCode: 400,
       message: "Email or password was incorrect.",
       error: "Bad request",

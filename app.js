@@ -11,8 +11,7 @@ const corsOptions = {
 };
 
 app.get("/", function (req, res) {
-  //when we get an http get request to the root/homepage
-  res.send("Hello World");
+  res.send("Hello Assist");
 });
 
 app.use(cors(corsOptions));
