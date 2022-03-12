@@ -18,6 +18,7 @@ exports.create = async (req, res) => {
     role,
     office_id,
   } = req.body;
+  res.status(200).send(req.body);
   //Password encryption
   encyrptedPassword = await bcrypt.hash(password, 10);
   // Create a User
