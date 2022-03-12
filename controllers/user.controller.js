@@ -39,7 +39,6 @@ exports.create = async (req, res) => {
       res.status(200).send(data);
     })
     .catch((err) => {
-      res.json(data);
       if (err.message === "Validation error") {
         res.status(400).send({
           message: "User already exists",
