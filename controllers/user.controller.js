@@ -126,7 +126,7 @@ exports.login = async (req, res) => {
         expiresIn: "2h",
       });
 
-      return res.status(200).json({ access_token: token });
+      res.status(200).json({ access_token: token });
     } else
       res.json({
         statusCode: 400,
