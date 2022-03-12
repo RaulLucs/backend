@@ -8,6 +8,7 @@ const app = express();
 require("dotenv").config();
 const corsOptions = {
   origin: "http://localhost:3000",
+  credentials: true,
 };
 
 app.get("/", function (req, res) {
