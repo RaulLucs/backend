@@ -126,9 +126,9 @@ exports.login = async (req, res) => {
         expiresIn: "2h",
       });
 
-      res.status(200).json({ access_token: token });
+      return res.status(200).json({ access_token: token });
     } else
-      return res.json({
+      res.json({
         statusCode: 400,
         message: "Email or password was incorrect.",
         error: "Bad request",
