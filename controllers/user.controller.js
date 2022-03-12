@@ -128,7 +128,7 @@ exports.login = async (req, res) => {
 
       res.status(200).json({ access_token: token });
     } else
-      res.json({
+      return res.json({
         statusCode: 400,
         message: "Email or password was incorrect.",
         error: "Bad request",
