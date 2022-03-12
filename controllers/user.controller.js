@@ -24,7 +24,7 @@ exports.create = async (req, res) => {
   const user = {
     first_name,
     last_name,
-    email_address: email_address.toLowerCase(),
+    email_address,
     password: encyrptedPassword,
     gender,
     date_of_birth,
