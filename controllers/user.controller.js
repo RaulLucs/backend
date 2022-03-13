@@ -117,10 +117,15 @@ exports.login = async (req, res) => {
     if (!(email_address && password)) {
       res.status(400).send("All input is required");
     }
-
     const user = await User.findOne({
       where: { email_address: email_address },
     });
+    if (user.active_user === false)
+      return res.json({
+        statusCode: 400,
+        message: "This account has been deactivated.",
+        error: "Bad request",
+      });
     console.log("HI");
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
