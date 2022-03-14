@@ -19,7 +19,7 @@ exports.create = async (req, res) => {
     office_id,
   } = req.body;
   //Password encryption
-  if (password !== '') encyrptedPassword = await bcrypt.hash(password, 10);
+  if (password) encyrptedPassword = await bcrypt.hash(password, 10);
   // Create a User
   const user = {
     first_name,
