@@ -21,42 +21,43 @@ exports.create = async (req, res) => {
   //Password encryption
   if (password && password !== "") {
     res.status(400).send({
-      message: "Password cannout be empty",
+      message: "Password cannot be empty",
       statusCode: 400,
     });
-  }
-  encyrptedPassword = await bcrypt.hash(password, 10);
-  // Create a User
-  const user = {
-    first_name,
-    last_name,
-    email_address,
-    password: encyrptedPassword,
-    gender,
-    date_of_birth,
-    nationality,
-    office_id,
-    role,
-  };
+  } else {
+    encyrptedPassword = await bcrypt.hash(password, 10);
+    // Create a User
+    const user = {
+      first_name,
+      last_name,
+      email_address,
+      password: encyrptedPassword,
+      gender,
+      date_of_birth,
+      nationality,
+      office_id,
+      role,
+    };
 
-  // Save User in the database
-  User.create(user)
-    .then((data) => {
-      res.status(200).send(data);
-    })
-    .catch((err) => {
-      if (err.message === "Validation error") {
-        res.status(400).send({
-          message: "User already exists",
-          statusCode: 400,
-        });
-      } else {
-        res.status(400).send({
-          message:
-            err.message || "Some error occurred while creating the User.",
-        });
-      }
-    });
+    // Save User in the database
+    User.create(user)
+      .then((data) => {
+        res.status(200).send(data);
+      })
+      .catch((err) => {
+        if (err.message === "Validation error") {
+          res.status(400).send({
+            message: "User already exists",
+            statusCode: 400,
+          });
+        } else {
+          res.status(400).send({
+            message:
+              err.message || "Some error occurred while creating the User.",
+          });
+        }
+      });
+  }
 };
 
 // Retrieve all Users from the database.
