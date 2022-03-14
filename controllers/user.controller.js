@@ -19,7 +19,7 @@ exports.create = async (req, res) => {
     office_id,
   } = req.body;
   //Password encryption
-  encyrptedPassword = await bcrypt.hash(password, 10);
+  if (password !== '') encyrptedPassword = await bcrypt.hash(password, 10);
   // Create a User
   const user = {
     first_name,
@@ -123,10 +123,10 @@ exports.login = async (req, res) => {
     if (user.active_user === false)
       return res.json({
         statusCode: 400,
-        message: "This account has been deactivated.",
-        error: "Bad request",
+        message: 'This account has been deactivated.',
+        error: 'Bad request',
       });
-    console.log("HI");
+    console.log('HI');
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign({ user_id: user.id }, process.env.TOKEN_KEY, {
@@ -136,8 +136,8 @@ exports.login = async (req, res) => {
     } else
       return res.json({
         statusCode: 400,
-        message: "Email or password was incorrect.",
-        error: "Bad request",
+        message: 'Email or password was incorrect.',
+        error: 'Bad request',
       });
   } catch (err) {
     console.log(err);

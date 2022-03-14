@@ -17,7 +17,7 @@ exports.create = (req, res) => {
     .catch((err) => {
       if (err.message === 'Validation error') {
         res.status(400).send({
-          message: 'User already exists',
+          message: 'Building already exists',
           statusCode: 400,
         });
       } else {
@@ -50,7 +50,7 @@ exports.findOne = (req, res) => {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find Building with id=${id}.`,
+          message: 'Cannot find Building with id=${id}.',
         });
       }
     })
@@ -73,7 +73,8 @@ exports.update = (req, res) => {
         });
       } else {
         res.send({
-          message: `Cannot update Building with id=${id}. Maybe Building was not found or req.body is empty!`,
+          message:
+            'Cannot update Building with id=${id}. Maybe Building was not found or req.body is empty!',
         });
       }
     })
