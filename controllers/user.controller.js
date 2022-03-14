@@ -17,7 +17,6 @@ exports.create = async (req, res) => {
     nationality,
     role,
     office_id,
-    token,
   } = req.body;
   //Password encryption
   encyrptedPassword = await bcrypt.hash(password, 10);
@@ -25,7 +24,7 @@ exports.create = async (req, res) => {
   const user = {
     first_name,
     last_name,
-    email_address: email_address.toLowerCase(),
+    email_address,
     password: encyrptedPassword,
     gender,
     date_of_birth,
@@ -110,57 +109,6 @@ exports.update = (req, res) => {
       });
     });
 };
-
-// Delete a User with the specified id in the request
-exports.delete = (req, res) => {
-  const id = req.params.id;
-  User.destroy({
-    where: { id: id },
-  })
-    .then((num) => {
-      if (num == 1) {
-        res.send({
-          message: 'User was deleted successfully!',
-        });
-      } else {
-        res.send({
-          message: `Cannot delete User with id=${id}. Maybe User was not found!`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Could not delete User with id=' + id,
-      });
-    });
-};
-// Delete all Users from the database.
-exports.deleteAll = (req, res) => {
-  User.destroy({
-    where: {},
-    truncate: false,
-  })
-    .then((nums) => {
-      res.send({ message: `${nums} Users were deleted successfully!` });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while removing all users.',
-      });
-    });
-};
-// Find all published Users
-exports.findAllPublished = (req, res) => {
-  User.findAll({ where: { published: true } })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving users.',
-      });
-    });
-};
 // User login
 exports.login = async (req, res) => {
   try {
@@ -169,18 +117,28 @@ exports.login = async (req, res) => {
     if (!(email_address && password)) {
       res.status(400).send('All input is required');
     }
-
-    const user = await User.findOne({ email_address });
-    console.log('HI');
+    const user = await User.findOne({
+      where: { email_address: email_address },
+    });
+    if (user.active_user === false)
+      return res.json({
+        statusCode: 400,
+        message: "This account has been deactivated.",
+        error: "Bad request",
+      });
+    console.log("HI");
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign({ user_id: user.id }, process.env.TOKEN_KEY, {
         expiresIn: '2h',
       });
-
-      res.status(200).json({ acces_token: token });
-    }
-    res.status(400).send('Email or password was incorrect.');
+      res.status(200).json({ access_token: token });
+    } else
+      return res.json({
+        statusCode: 400,
+        message: "Email or password was incorrect.",
+        error: "Bad request",
+      });
   } catch (err) {
     console.log(err);
   }
