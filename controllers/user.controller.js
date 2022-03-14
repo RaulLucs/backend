@@ -18,13 +18,13 @@ exports.create = async (req, res) => {
     role,
     office_id,
   } = req.body;
-  //Password encryption
   if (password && password !== "") {
     res.status(400).send({
       message: "Password cannot be empty",
       statusCode: 400,
     });
   } else {
+    //Password encryption
     encyrptedPassword = await bcrypt.hash(password, 10);
     // Create a User
     const user = {
