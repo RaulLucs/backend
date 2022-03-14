@@ -1,9 +1,9 @@
-const { User } = require('../models/user.model');
-const Sequelize = require('sequelize');
+const { User } = require("../models/user.model");
+const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 // Create and Save a new User
 exports.create = async (req, res) => {
@@ -19,7 +19,8 @@ exports.create = async (req, res) => {
     office_id,
   } = req.body;
   //Password encryption
-  if (password) encyrptedPassword = await bcrypt.hash(password, 10);
+  if (password && password !== "")
+    encyrptedPassword = await bcrypt.hash(password, 10);
   // Create a User
   const user = {
     first_name,
@@ -39,15 +40,15 @@ exports.create = async (req, res) => {
       res.status(200).send(data);
     })
     .catch((err) => {
-      if (err.message === 'Validation error') {
+      if (err.message === "Validation error") {
         res.status(400).send({
-          message: 'User already exists',
+          message: "User already exists",
           statusCode: 400,
         });
       } else {
         res.status(400).send({
           message:
-            err.message || 'Some error occurred while creating the User.',
+            err.message || "Some error occurred while creating the User.",
         });
       }
     });
@@ -63,7 +64,7 @@ exports.findAll = (req, res) => {
     })
     .catch((err) => {
       res.status(400).send({
-        message: err.message || 'Some error occurred while retrieving users.',
+        message: err.message || "Some error occurred while retrieving users.",
       });
     });
 };
@@ -82,7 +83,7 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'Error retrieving User with id=' + id,
+        message: "Error retrieving User with id=" + id,
       });
     });
 };
@@ -95,7 +96,7 @@ exports.update = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: 'User was updated successfully.',
+          message: "User was updated successfully.",
         });
       } else {
         res.send({
@@ -105,7 +106,7 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'Error updating User with id=' + id,
+        message: "Error updating User with id=" + id,
       });
     });
 };
@@ -115,7 +116,7 @@ exports.login = async (req, res) => {
     const { email_address, password } = req.body;
 
     if (!(email_address && password)) {
-      res.status(400).send('All input is required');
+      res.status(400).send("All input is required");
     }
     const user = await User.findOne({
       where: { email_address: email_address },
@@ -123,21 +124,21 @@ exports.login = async (req, res) => {
     if (user.active_user === false)
       return res.json({
         statusCode: 400,
-        message: 'This account has been deactivated.',
-        error: 'Bad request',
+        message: "This account has been deactivated.",
+        error: "Bad request",
       });
-    console.log('HI');
+    console.log("HI");
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign({ user_id: user.id }, process.env.TOKEN_KEY, {
-        expiresIn: '2h',
+        expiresIn: "2h",
       });
       res.status(200).json({ access_token: token });
     } else
       return res.json({
         statusCode: 400,
-        message: 'Email or password was incorrect.',
-        error: 'Bad request',
+        message: "Email or password was incorrect.",
+        error: "Bad request",
       });
   } catch (err) {
     console.log(err);
