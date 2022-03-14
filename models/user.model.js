@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const { sequelize } = require("../config/sequelize.config");
-const { Office } = require("./office.model");
+const Sequelize = require('sequelize');
+const { sequelize } = require('../config/sequelize.config');
+const { Office } = require('./office.model');
 const User = sequelize.define(
-  "user",
+  'user',
   {
     first_name: {
       type: Sequelize.STRING,
@@ -18,7 +18,8 @@ const User = sequelize.define(
       validate: {
         isEmail: true,
       },
-      unique: "compositeIndex",
+      unique: 'compositeIndex',
+
     },
     password: {
       type: Sequelize.STRING,

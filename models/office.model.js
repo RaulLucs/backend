@@ -22,7 +22,7 @@ const Office = sequelize.define(
       allowNull: false,
     },
     office_administrator: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
     },
     building_id: {
       type: Sequelize.INTEGER,
