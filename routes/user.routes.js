@@ -1,6 +1,6 @@
-const users = require("../controllers/user.controller.js");
-const router = require("express").Router();
-const auth = require("../middleware/auth");
+const users = require('../controllers/user.controller.js');
+const router = require('express').Router();
+const auth = require('../middleware/auth');
 
 module.exports = (app) => {
   router.post("/", users.create);
