@@ -18,7 +18,7 @@ exports.create = async (req, res) => {
     role,
     office_id,
   } = req.body;
-  if (password && password !== "") {
+  if (!password || password === "") {
     res.status(400).send({
       message: "Password cannot be empty",
       statusCode: 400,
