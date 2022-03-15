@@ -1,6 +1,6 @@
-const { Office } = require('../models/office.model');
-const Sequelize = require('sequelize');
-const { Building } = require('../models/building.model');
+const { Office } = require("../models/office.model");
+const Sequelize = require("sequelize");
+const { Building } = require("../models/building.model");
 const Op = Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -26,15 +26,15 @@ exports.create = (req, res) => {
       res.status(200).send(data);
     })
     .catch((err) => {
-      if (err.message === 'Validation error') {
+      if (err.message === "Validation error") {
         res.status(400).send({
-          message: 'Office already exists',
+          message: "Office already exists",
           statusCode: 400,
         });
       } else {
         res.status(400).send({
           message:
-            err.message || 'Some error occurred while creating the Office.',
+            err.message || "Some error occurred while creating the Office.",
         });
       }
     });
@@ -45,18 +45,13 @@ exports.findAll = (req, res) => {
   var condition = title ? { title: { [Op.iLike]: `%${title}%` } } : null;
   Office.findAll({
     where: condition,
-    include: [
-      {
-        model: Building,
-      },
-    ],
   })
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(400).send({
-        message: err.message || 'Some error occurred while retrieving office.',
+        message: err.message || "Some error occurred while retrieving office.",
       });
     });
 };
@@ -75,7 +70,7 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'Error retrieving Office with id=' + id,
+        message: "Error retrieving Office with id=" + id,
       });
     });
 };
@@ -88,7 +83,7 @@ exports.update = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: 'Office was updated successfully.',
+          message: "Office was updated successfully.",
         });
       } else {
         res.send({
@@ -98,7 +93,7 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'Error updating Office with id=' + id,
+        message: "Error updating Office with id=" + id,
       });
     });
 };
@@ -111,7 +106,7 @@ exports.delete = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: 'Office was deleted successfully!',
+          message: "Office was deleted successfully!",
         });
       } else {
         res.send({
@@ -121,7 +116,7 @@ exports.delete = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'Could not delete Office with id=' + id,
+        message: "Could not delete Office with id=" + id,
       });
     });
 };
