@@ -95,9 +95,9 @@ exports.findOne = (req, res) => {
 };
 // Update a User by the id in the request
 exports.update = (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id;
   User.update(req.body, {
-    where: { id: id, active_user: true },
+    where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
