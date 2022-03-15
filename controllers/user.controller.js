@@ -97,7 +97,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
   User.update(req.body, {
-    where: { id: id },
+    where: { id: id, active_user: true },
   })
     .then((num) => {
       if (num == 1) {
@@ -106,7 +106,7 @@ exports.update = (req, res) => {
         });
       } else {
         res.send({
-          message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
+          message: `Cannot update User with id=${id}. Maybe User was not found, req.body is empty or account has been deactivated!`,
         });
       }
     })
