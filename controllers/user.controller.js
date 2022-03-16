@@ -149,9 +149,13 @@ exports.login = async (req, res) => {
     console.log("HI");
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
-      const token = jwt.sign({ user_id: user.id }, process.env.TOKEN_KEY, {
-        expiresIn: "2h",
-      });
+      const token = jwt.sign(
+        { user_id: user.id, role: user.role },
+        process.env.TOKEN_KEY,
+        {
+          expiresIn: "2h",
+        }
+      );
       res.status(200).json({ access_token: token });
     } else
       return res.json({
