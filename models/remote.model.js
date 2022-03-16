@@ -1,9 +1,9 @@
-const Sequelize = require('sequelize');
-const { sequelize } = require('../config/sequelize.config');
-const { User } = require('./user.model');
+const Sequelize = require("sequelize");
+const { sequelize } = require("../config/sequelize.config");
+const { User } = require("./user.model");
 
 const Remote = sequelize.define(
-  'remote',
+  "remote",
   {
     percentage: {
       type: Sequelize.INTEGER,
@@ -17,14 +17,17 @@ const Remote = sequelize.define(
       type: Sequelize.INTEGER,
       defaultValue: 2,
     },
+    declinedReason: {
+      type: Sequelize.TEXT,
+    },
   },
-  { tableName: 'remote' }
+  { tableName: "remote" }
 );
 
-User.hasOne(Remote, { as: 'remote' });
+User.hasOne(Remote, { as: "remote" });
 Remote.belongsTo(User, {
-  foreignKey: 'user_id',
-  as: 'user',
+  foreignKey: "user_id",
+  as: "user",
 });
 
 module.exports = { Remote };
