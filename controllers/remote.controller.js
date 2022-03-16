@@ -10,7 +10,7 @@ exports.create = (req, res) => {
     percentage,
     reason,
     user_id,
-    declinedReason,
+    declinedReason: null,
   };
   Remote.create(remote)
     .then((data) => {
@@ -25,7 +25,7 @@ exports.create = (req, res) => {
       } else {
         res.status(400).send({
           message:
-            err.message || "Some error occurred while creating the Office.",
+            err.message || "Some error occurred while creating the Remote.",
         });
       }
     });
