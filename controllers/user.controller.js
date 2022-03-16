@@ -74,6 +74,19 @@ exports.findAll = (req, res) => {
       });
     });
 };
+//Retrieve all users from an office
+exports.findOffice = (req, res) => {
+  const office_id = req.params.id;
+  User.findAll({ where: { office_id: office_id } })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(400).send({
+        message: err.message || "Some error occurred while retrieving users.",
+      });
+    });
+};
 // Find a single User with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
@@ -106,7 +119,7 @@ exports.update = (req, res) => {
         });
       } else {
         res.send({
-          message: `Cannot update User with id=${id}. Maybe User was not found, req.body is empty or account has been deactivated!`,
+          message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
         });
       }
     })
