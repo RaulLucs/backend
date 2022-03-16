@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 const { sequelize } = require("../config/sequelize.config");
-const { Office } = require("./office.model");
 const { User } = require("./user.model");
 
 const Remote = sequelize.define(
@@ -35,11 +34,4 @@ User.associate = (models) => {
     sourceKey: "user_id",
   });
 };
-Office.associate = (models) => {
-  Office.hasOne(models.office, {
-    foreignKey: "id",
-    sourceKey: "office_administrator",
-  });
-};
-
 module.exports = { Remote };
