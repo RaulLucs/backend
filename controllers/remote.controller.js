@@ -1,30 +1,29 @@
-const { Remote } = require('../models/remote.model');
-const Sequelize = require('sequelize');
+const { Remote } = require("../models/remote.model");
+const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 exports.create = (req, res) => {
-  const { percentage, reason, user_id, office_admin_id } = req.body;
+  const { percentage, reason, user_id } = req.body;
 
   const remote = {
     percentage,
     reason,
     user_id,
-    office_admin_id,
   };
   Remote.create(remote)
     .then((data) => {
       res.status(200).send(data);
     })
     .catch((err) => {
-      if (err.message === 'Validation error') {
+      if (err.message === "Validation error") {
         res.status(400).send({
-          message: 'Remote already exists',
+          message: "Remote already exists",
           statusCode: 400,
         });
       } else {
         res.status(400).send({
           message:
-            err.message || 'Some error occurred while creating the Office.',
+            err.message || "Some error occurred while creating the Office.",
         });
       }
     });
@@ -41,7 +40,7 @@ exports.findAll = (req, res) => {
     })
     .catch((err) => {
       res.status(400).send({
-        message: err.message || 'Some error occurred while retrieving remote.',
+        message: err.message || "Some error occurred while retrieving remote.",
       });
     });
 };
@@ -60,7 +59,7 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'Error retrieving Remote with id=' + id,
+        message: "Error retrieving Remote with id=" + id,
       });
     });
 };
@@ -73,7 +72,7 @@ exports.update = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: 'Remote was updated successfully.',
+          message: "Remote was updated successfully.",
         });
       } else {
         res.send({
@@ -83,7 +82,7 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'Error updating Remote with id=' + id,
+        message: "Error updating Remote with id=" + id,
       });
     });
 };

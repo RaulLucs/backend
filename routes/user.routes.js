@@ -11,4 +11,3 @@ module.exports = (app) => {
   router.post("/login", users.login);
   app.use("/api/users", router);
 };
-s;
