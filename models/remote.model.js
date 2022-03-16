@@ -1,10 +1,10 @@
-const Sequelize = require('sequelize');
-const { sequelize } = require('../config/sequelize.config');
-const { Office } = require('./office.model');
-const { User } = require('./user.model');
+const Sequelize = require("sequelize");
+const { sequelize } = require("../config/sequelize.config");
+const { Office } = require("./office.model");
+const { User } = require("./user.model");
 
 const Remote = sequelize.define(
-  'remote',
+  "remote",
   {
     percentage: {
       type: Sequelize.INTEGER,
@@ -18,35 +18,27 @@ const Remote = sequelize.define(
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: 'user',
-        key: 'id',
+        model: "user",
+        key: "id",
       },
     },
     status: {
       type: Sequelize.INTEGER,
       defaultValue: 2,
     },
-    office_admin_id: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'office',
-        key: 'id',
-      },
-    },
   },
-  { tableName: 'remote' }
+  { tableName: "remote" }
 );
 User.associate = (models) => {
   User.hasOne(models.user, {
-    foreignKey: 'id',
-    sourceKey: 'user_id',
+    foreignKey: "id",
+    sourceKey: "user_id",
   });
 };
 Office.associate = (models) => {
   Office.hasOne(models.office, {
-    foreignKey: 'id',
-    sourceKey: 'office_administrator',
+    foreignKey: "id",
+    sourceKey: "office_administrator",
   });
 };
 
