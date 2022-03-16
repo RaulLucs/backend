@@ -20,8 +20,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-sequelize.sync({ force: true });
-//sequelize.sync();
+//sequelize.sync({ force: true });
+sequelize.sync();
 userRoutes(app);
 buildingRoutes(app);
 officeRoutes(app);
