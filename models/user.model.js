@@ -19,7 +19,6 @@ const User = sequelize.define(
         isEmail: true,
       },
       unique: 'compositeIndex',
-
     },
     password: {
       type: Sequelize.STRING,
@@ -43,21 +42,14 @@ const User = sequelize.define(
       type: Sequelize.BOOLEAN,
       defaultValue: true,
     },
-    office_id: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: "office",
-        key: "id",
-      },
-    },
   },
-  { tableName: "user" }
+  { tableName: 'user' }
 );
-Office.associate = (models) => {
-  Office.hasOne(models.office, {
-    foreignKey: "id",
-    sourceKey: "office_id",
-  });
-};
+
+Office.hasMany(User, { as: 'users' });
+User.belongsTo(Office, {
+  foreignKey: 'office_id',
+  as: 'office',
+});
 
 module.exports = { User };

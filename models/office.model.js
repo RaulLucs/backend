@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const { sequelize } = require('../config/sequelize.config');
-const { Building } = require('./building.model');
 
 const Office = sequelize.define(
   'office',
@@ -24,23 +23,8 @@ const Office = sequelize.define(
     office_administrator: {
       type: Sequelize.INTEGER,
     },
-    building_id: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'building',
-        key: 'id',
-      },
-    },
   },
   { tableName: 'office' }
 );
-
-Office.associate = (models) => {
-  Office.hasOne(models.building, {
-    foreignKey: 'id',
-    sourceKey: 'building_id',
-  });
-};
 
 module.exports = { Office };

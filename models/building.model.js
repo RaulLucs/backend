@@ -1,6 +1,6 @@
-const { client_encoding } = require('pg/lib/defaults');
 const Sequelize = require('sequelize');
 const { sequelize } = require('../config/sequelize.config');
+const { Office } = require('./office.model');
 
 const Building = sequelize.define(
   'building',
@@ -20,11 +20,11 @@ const Building = sequelize.define(
   },
   { tableName: 'building' }
 );
-Building.associate = (models) => {
-  console.log(models);
-  Building.belongsTo(models.office, {
-    foreignKey: 'building_id',
-  });
-};
+
+Building.hasMany(Office, { as: 'offices' });
+Office.belongsTo(Building, {
+  foreignKey: 'building_id',
+  as: 'building',
+});
 
 module.exports = { Building };

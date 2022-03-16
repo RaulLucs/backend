@@ -47,7 +47,7 @@ exports.findAll = (req, res) => {
 
   Office.findAll({
     where: condition,
-    relation: 'user',
+    include: [{ model: Building, as: 'building' }],
   })
     .then(async (data) => {
       for (let i = 0; i < data.length; i++) {
