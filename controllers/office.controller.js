@@ -1,6 +1,7 @@
-const { Office } = require("../models/office.model");
-const Sequelize = require("sequelize");
-const { Building } = require("../models/building.model");
+const { Office } = require('../models/office.model');
+const Sequelize = require('sequelize');
+const { Building } = require('../models/building.model');
+const { User } = require('../models/user.model');
 const Op = Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -26,15 +27,15 @@ exports.create = (req, res) => {
       res.status(200).send(data);
     })
     .catch((err) => {
-      if (err.message === "Validation error") {
+      if (err.message === 'Validation error') {
         res.status(400).send({
-          message: "Office already exists",
+          message: 'Office already exists',
           statusCode: 400,
         });
       } else {
         res.status(400).send({
           message:
-            err.message || "Some error occurred while creating the Office.",
+            err.message || 'Some error occurred while creating the Office.',
         });
       }
     });
@@ -43,15 +44,28 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.iLike]: `%${title}%` } } : null;
+
   Office.findAll({
     where: condition,
+    relation: 'user',
   })
-    .then((data) => {
+    .then(async (data) => {
+      for (let i = 0; i < data.length; i++) {
+        console.log('data', data[i].office_administrator);
+        const user = await User.findByPk(data[i].office_administrator);
+        if (user === null) {
+          data[i]['office_administrator'] = 'Not exist';
+        } else {
+          data[i]['office_administrator'] =
+            user.first_name + ' ' + user.last_name;
+        }
+      }
+
       res.send(data);
     })
     .catch((err) => {
       res.status(400).send({
-        message: err.message || "Some error occurred while retrieving office.",
+        message: err.message || 'Some error occurred while retrieving office.',
       });
     });
 };
@@ -70,7 +84,7 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving Office with id=" + id,
+        message: 'Error retrieving Office with id=' + id,
       });
     });
 };
@@ -83,7 +97,7 @@ exports.update = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Office was updated successfully.",
+          message: 'Office was updated successfully.',
         });
       } else {
         res.send({
@@ -93,7 +107,7 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating Office with id=" + id,
+        message: 'Error updating Office with id=' + id,
       });
     });
 };
@@ -106,7 +120,7 @@ exports.delete = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Office was deleted successfully!",
+          message: 'Office was deleted successfully!',
         });
       } else {
         res.send({
@@ -116,7 +130,7 @@ exports.delete = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete Office with id=" + id,
+        message: 'Could not delete Office with id=' + id,
       });
     });
 };
